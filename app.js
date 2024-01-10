@@ -35,14 +35,22 @@ myForm.addEventListener('submit',e=>{
     //current date
     const currentDate = new Date()
     const birthDate = new Date(`${monthInput}/${dayInput}/${yearInput}`)
-    //calculate the year diff
-    let Yeardiff = new Date(currentDate.getTime() - birthDate.getTime())
-    let seconds = Math.abs(Yeardiff / 1000)
-    let min = Math.abs(seconds / 60)
-    let hours  = Math.abs(min / 60)
-    let days = Math.abs(hours / 24)
-    let months  = Math.abs(days / 30)
-    let years  = Math.abs(months / 12)  - 1
+
+    //calc year diffrence 
+    let years = currentDate.getFullYear() - birthDate.getFullYear();
+    let months = currentDate.getMonth() - birthDate.getMonth();
+    let days = currentDate.getDate() - birthDate.getDate();
+
+    // Adjust negative months or days //ty @manjubhaskar02
+    if (days < 0) {
+        months--;
+        days += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
     //output results to user
     dayOutput.innerHTML = Math.ceil(days)
     monthOutput.innerHTML = Math.ceil(months)
